@@ -6,13 +6,7 @@ require("dotenv").config();
 const generateRoute = require("./routes/generate");
 
 const app = express();
-app.use(
-  cors({
-    origin: ["https://project-idea-generator-six.vercel.app/"],
-    methods: ["POST", "GET"],
-    credentials: true,
-  })
-);
+app.use(cors({ origin: "*" }));
 app.use(bodyParser.json());
 
 // Routes
