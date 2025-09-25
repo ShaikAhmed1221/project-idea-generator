@@ -1,18 +1,19 @@
-const express = require("express");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 require("dotenv").config();
 
-const app = express();
-app.use(express.json());
-
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-app.post("/", async (req, res) => {
+module.exports = async (req, res) => {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
   try {
     const { techSelections, complexity } = req.body;
 
-    if (!techSelections || !techSelections.length)
+    if (!techSelections || !techSelections.length) {
       return res.status(400).json({ error: "No technologies provided." });
+    }
 
     let difficulty = "Beginner";
     if (complexity >= 35 && complexity < 70) difficulty = "Intermediate";
@@ -42,11 +43,9 @@ Return the output strictly as a JSON object with keys: title, description, probl
       projectIdea = { raw: textResponse };
     }
 
-    res.json({ projectIdea });
+    res.status(200).json({ projectIdea });
   } catch (error) {
     console.error("Error generating project idea:", error);
     res.status(500).json({ error: "Failed to generate project idea" });
   }
-});
-
-module.exports = app;
+};
