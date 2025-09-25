@@ -125,7 +125,7 @@ const TechSelector = ({ techSelections, setTechSelections }) => {
 
       // Quality & Security
       testing: "🧪 Testing",
-      security: "🔒 Security",  
+      security: "🔒 Security",
 
       // Content & Real-time
       cms: "📝 CMS",
@@ -724,15 +724,18 @@ export default function Page() {
     setIsLoading(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/generate`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          techSelections: selectedTechnologies,
-          complexity,
-          isRegenerate,
-        }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/generate`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            techSelections: selectedTechnologies,
+            complexity,
+            isRegenerate,
+          }),
+        }
+      );
 
       const data = await res.json();
       let ideaPayload = data?.projectIdea ?? data;
