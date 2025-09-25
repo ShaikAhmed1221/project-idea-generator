@@ -8,6 +8,9 @@ const generateRoute = require("./api/generate");
 const app = express();
 app.use(cors({ origin: "*" }));
 app.use(bodyParser.json());
+app.get("/", (req, res) => {
+  res.send("Backend is running!");
+});
 
 // Route
 app.use("/api/generate", generateRoute);
