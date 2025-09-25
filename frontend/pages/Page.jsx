@@ -737,6 +737,11 @@ export default function Page() {
         }
       );
 
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to generate");
+      }
+
       const data = await res.json();
       let ideaPayload = data?.projectIdea ?? data;
 
