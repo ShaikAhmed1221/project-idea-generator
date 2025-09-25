@@ -1,9 +1,7 @@
 const express = require("express");
-const cors = require("cors");
 const bodyParser = require("body-parser");
-require("dotenv").config();
-
-const generateRoute = require("./routes/generate");
+const cors = require("cors");
+const generateRoute = require("../backend/routes/generate"); // adjust path if needed
 
 const app = express();
 app.use(cors({ origin: "*" }));
@@ -12,5 +10,5 @@ app.use(bodyParser.json());
 // Routes
 app.use("/api/generate", generateRoute);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Export as a Vercel serverless function (no app.listen here!)
+module.exports = app;
