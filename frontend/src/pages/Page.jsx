@@ -713,6 +713,8 @@ export default function Page() {
   const [error, setError] = useState("");
 
   const generateProjectIdea = async (isRegenerate = false) => {
+    const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
     const selectedTechnologies = techSelections.filter(
       (s) => s.category && s.technology
     );
@@ -724,18 +726,15 @@ export default function Page() {
     setIsLoading(true);
 
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/generate`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            techSelections: selectedTechnologies,
-            complexity,
-            isRegenerate,
-          }),
-        }
-      );
+      const res = await fetch(`${BACKEND_URL}/api/generate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          techSelections: selectedTechnologies,
+          complexity,
+          isRegenerate,
+        }),
+      });
 
       if (!res.ok) {
         const errorData = await res.json();
