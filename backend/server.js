@@ -1,19 +1,20 @@
 const express = require("express");
 const cors = require("cors");
-const bodyParser = require("body-parser");
-require("dotenv").config();
-
-const generateRoute = require("./api/generate");
+const generateRoute = require("./api/generate"); // Import the function logic
 
 const app = express();
-app.use(cors({ origin: "*" }));
-app.use(bodyParser.json());
+
+const corsOptions = {
+  origin: process.env.FRONTEND_URL,
+};
+
+app.use(cors(corsOptions));
+app.use(express.json());
+
+app.use("/api/generate", generateRoute);
+
 app.get("/", (req, res) => {
   res.send("Backend is running!");
 });
 
-// Route
-app.use("/api/generate", generateRoute);
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+module.exports = app;
